@@ -5,6 +5,7 @@ from src.components.stat_cards import *
 import pandas as pd
 # import dash_core_components as dcc
 from datetime import date
+import ipywidgets as widgets
 
 tab_style = {
     'idle':{
@@ -42,11 +43,11 @@ def create_layout(app: Dash, source: pd.DataFrame, stat_cards: Stat_Cards)-> htm
             ,width=6),
         ]),
         dbc.Row([       
-            dbc.Col(stat_cards.generate_stats_card("Recebido",'0',"./assets/recebidos.png")),
             dbc.Col(stat_cards.generate_stats_card("Pago", '0',"./assets/pagos.png")),
-            dbc.Col(stat_cards.generate_stats_card("Saldo Final",'0',"./assets/saldo-atual.png")),
-            dbc.Col(stat_cards.generate_stats_card("Total Atrasado",'0',"./assets/total-atrasado.png")),
-            dbc.Col(stat_cards.generate_stats_card("Total",'0',"./assets/saldo-final.png"))
+            dbc.Col(stat_cards.generate_stats_card("Recebido",'0',"./assets/recebidos.png")),
+            dbc.Col(stat_cards.generate_stats_card("Pagar",'0',"./assets/saldo-atual.png")),
+            dbc.Col(stat_cards.generate_stats_card("Receber",'0',"./assets/total-atrasado.png")),
+            dbc.Col(stat_cards.generate_stats_card("Saldo Atual",'0',"./assets/saldo-final.png"))
         ],id="stats_card_values", style={'maxWidth': '100vw'}),
         html.Div([
             dcc.DatePickerRange(
@@ -62,6 +63,9 @@ def create_layout(app: Dash, source: pd.DataFrame, stat_cards: Stat_Cards)-> htm
                 style={'height': '50px'}
             ),
             dcc.Input(id='input-on-submit-text', type='number', placeholder='Digite o saldo inicial', style={'border': '1px solid #007bff', 'border-radius': '5px', 'width': '250px', 'height': '48px'}),
+            dcc.RadioItems(id='radio-button',
+            options=[{'label': 'Previsto', 'value': '1'},
+                     {'label': 'Efetivo', 'value': '2'},],value='1', style={'color': 'white'}),
             html.Button('Calcular', id='submit-button', n_clicks=0, style={'background-color': '#007bff', 'color': 'white', 'height': '48px', 'border': 'none', 'border-radius': '5px','cursor': 'pointer', 'width': '250px'})
         ],style={'display': 'flex', 'width': '80vw', 'height': '7vh','margin': '10px 0px', 'gap': '10px'}),
         # dbc.Row([
